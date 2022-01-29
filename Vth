@@ -1,0 +1,24 @@
+clear all
+clc
+%display("Hello word")
+%Calculo del inductor
+S0=1i*1000;
+Cap=1/(S0*(50*10^-6));
+Ind=S0*(10*10^-3);
+
+syms V1;syms V2;Vs=120;syms V3;
+Ia=V1/20;
+N1=(V1-Vs)/20 + (V1/20) + (V1-V2)/(-1i*20); %Nodo1
+N2=(V2-V1)/(-1i*20) + 4*Ia + (V2-V3)/(1i*10); %Nodo2
+N3=(V3-V2)/(1i*10) + (V3/30);
+A=[(1/10 + 1i/20), (-1i)/20, 0;(1/5 - 1i/20), -1i/20, 1i/10; 0,1i/10,(1/30 - 1i/10)];
+B=[Vs/20;0;0];
+V=A\B
+Vth=V(3);
+display(["Vth= ",num2str(abs(Vth)), "<",num2str(angle(Vth)*180/pi)]) %Acá pasamos de cuadradas a polares abs()para magnitud y angle()*180/pi para el ángulo en grados
+%Hallamos Rth, entonces volvemos Vs=0
+Vs=0;
+B=[0;0;1];
+V=[A\B];
+Zth=V(3)
+display(["Zth= ",num2str(Zth)])
